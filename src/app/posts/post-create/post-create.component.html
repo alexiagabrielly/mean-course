@@ -1,12 +1,32 @@
 <mat-card>
-  <mat-form-field>
-    <input matInput type="text" [(ngModel)]="enteredTitle">
-  </mat-form-field>
-  <mat-form-field>
-    <textarea matInput rows="10" [(ngModel)]="enteredContent" #postInput></textarea>
-  </mat-form-field>
-  <button
-  mat-raised-button
-  color="primary"
-  (click)="onAddPost()">save post</button>
+  <!-- Ao criar um form o angular vai entender que isso é um formulário e vai criar um objeto por baixo dos panos, definir um id que recebe ngForm nos permite acessar os dados desse objeto -->
+  <form (submit)="onAddPost(postForm)" #postForm="ngForm">
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        name="title"
+        ngModel
+        #title="ngModel"
+        required>
+
+      <mat-error *ngIf="title.invalid">Please enter a post title.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea
+        matInput
+        rows="10"
+        name="content"
+        ngModel
+        #content="ngModel"
+        #postInput
+        required></textarea>
+
+        <mat-error *ngIf="content.invalid">Please enter a post content.</mat-error>
+    </mat-form-field>
+    <button
+    mat-raised-button
+    color="primary"
+    type="submit">save post</button>
+  </form>
 </mat-card>

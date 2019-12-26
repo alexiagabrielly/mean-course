@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 import { Post } from '../post.model';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-post-create',
@@ -10,15 +11,15 @@ import { Post } from '../post.model';
 export class PostCreateComponent implements OnInit {
 
   constructor() {}
-  enteredTitle = '';
-  enteredContent = '';
+
   // Output responsável por fazer o angular entender que o postCreated é um evento que pode ser escutado do lado de fora
   @Output() postCreated = new EventEmitter<Post>();
 
-  onAddPost() {
+  onAddPost(form: NgForm) {
+    if (form.invalid) return;
     const post: Post = {
-      title: this.enteredTitle,
-      content: this.enteredContent
+      title: form.value.title,
+      content: form.value.content
     };
     // emit responsável por enviar as informações do post quando o evneto acontecer
     this.postCreated.emit(post);
