@@ -1,6 +1,5 @@
 <app-header></app-header>
 <main>
-  <!-- ter o $event como parametro de dá acesso aos dados que estão em trafego quando qualquer evento que tenha sido pré determinado for acionado -->
-  <app-post-create (postCreated)="onPostAdded($event)"></app-post-create>
-  <app-post-list [posts]="storedPosts"></app-post-list>
+  <app-post-create></app-post-create>
+  <app-post-list></app-post-list>
 </main>
