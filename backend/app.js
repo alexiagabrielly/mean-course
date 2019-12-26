@@ -1,15 +1,38 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+
+//Método responsável por setar os headers para evitar erro de cors
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Header', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS')
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, POST, PATCH, DELETE, OPTIONS'
+  );
   next();
 });
 
-app.use('/api/posts',(req, res, next) => {
+//Método responsável pelo post dos posts
+app.post('/api/posts', (req, res, next) => {
+  const post = req.body;
+  console.log(post);
+  res.status(201).json({
+    message: 'Post added successfuly!'
+  });
+});
+
+//Método responsável por listar os posts
+app.get('/api/posts', (req, res, next) => {
+
+  //Conteúdo temporáriamente mocado por não ter um banco de dados
   const posts = [
     {
       id: '1',
