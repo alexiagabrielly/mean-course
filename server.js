@@ -1,9 +1,51 @@
+const app = require('./backend/app');
+const debug = require('debug')('node-angular');
 const http = require('http');
 
-const server = http.createServer((req, res) => {
-  res.end('this is first response');
-});
+const normalizePort = val => {
+  const port = parseInt(val, 10);
 
+  if (isNaN(port)) {
+    return val;
+  }
 
-//Definindo a porta do servidor local
-server.listen(process.env.PORT || 3000);
+  if (port >= 0) {
+    return port;
+  }
+
+  return false;
+}
+
+const onError = error => {
+  if (error.syscall !== "listen") {
+    throw error;
+  }
+
+  const bind = typeof addr === "string" ? "pipe" + addr : "port" + port;
+  switch (error.code) {
+    case "EACCES":
+      console.error(bind + " requires elevated privilieges");
+      process.exit(1);
+      break;
+    case "EADDRINUSE":
+      console.error(bind + " is already in use");
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+};
+
+const onListening = () => {
+  const addr = server.address();
+  const bind = typeof addr === "string" ? "pipe" + addr : "pipe" + port;
+  debug("Lisening on " + bind);
+};
+
+const port = normalizePort(process.env.PORT || "3000");
+app.set('port', port);
+
+const server = http.createServer(app);
+server.on("error", onError);
+server.on("listening", onListening);
+server.listen(port);
