@@ -3,6 +3,7 @@
   <form (submit)="onAddPost(postForm)" #postForm="ngForm">
     <mat-form-field>
       <input
+        placeholder="Post Title"
         matInput
         type="text"
         name="title"
@@ -14,6 +15,7 @@
     </mat-form-field>
     <mat-form-field>
       <textarea
+        placeholder="Post content"
         matInput
         rows="10"
         name="content"
