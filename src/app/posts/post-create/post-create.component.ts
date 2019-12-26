@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-post-create',
@@ -8,11 +8,18 @@ import { Component, OnInit } from '@angular/core';
 export class PostCreateComponent implements OnInit {
 
   constructor() {}
-  enteredValue = '';
-  newPost = '';
+  enteredTitle = '';
+  enteredContent = '';
+  // Output responsável por fazer o angular entender que o postCreated é um evento que pode ser escutado do lado de fora
+  @Output() postCreated = new EventEmitter();
 
   onAddPost() {
-    this.newPost = this.enteredValue;
+    const post = {
+      title: this.enteredTitle,
+      content: this.enteredContent
+    };
+    // emit responsável por enviar as informações do post quando o evneto acontecer
+    this.postCreated.emit(post);
   }
 
   ngOnInit() {

@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'mean-course';
+  storedPosts = [];
+
+  // Método responsável por armazenar os dados do post que vem do componente post-create
+  onPostAdded(post) {
+    this.storedPosts.push(post);
+  }
 }
