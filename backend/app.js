@@ -1,7 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoouse = require('mongoose');
+
+const Post = require('./models/post');
 
 const app = express();
+
+mongoouse.connect('mongodb+srv://alexia:OQ6iePmy0CwGyGpE@cluster0-abrvj.mongodb.net/node-angular?retryWrites=true&w=majority')
+  .then(() => {
+    console.log('connect to database');
+  })
+  .catch(() => {
+    console.log('connection failed');
+  });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -22,8 +33,12 @@ app.use((req, res, next) => {
 
 //Método responsável pelo post dos posts
 app.post('/api/posts', (req, res, next) => {
-  const post = req.body;
-  console.log(post);
+  const post = new Post({
+    title: req.body.title,
+    content: req.body.content
+  });
+  //save() é um método do mongoose que quando declarado irá criar a query adequada para se conectar com o banco por de baixo dos panos
+  post.save();
   res.status(201).json({
     message: 'Post added successfuly!'
   });
