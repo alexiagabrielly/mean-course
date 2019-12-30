@@ -1,72 +1,66 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongoouse = require('mongoose');
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
-const Post = require('./models/post');
+const Post = require("./models/post");
 
 const app = express();
 
-mongoouse.connect('mongodb+srv://alexia:OQ6iePmy0CwGyGpE@cluster0-abrvj.mongodb.net/node-angular?retryWrites=true&w=majority')
+mongoose
+  .connect(
+    "mongodb+srv://alexiagabrielly:A5933b6e@cluster0-e2nmh.mongodb.net/test?retryWrites=true&w=majority", {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    })
   .then(() => {
-    console.log('connect to database');
+    console.log("Connected to database!");
   })
   .catch(() => {
-    console.log('connection failed');
+    console.log("deu ruim");
   });
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 
-//Método responsável por setar os headers para evitar erro de cors
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
   );
   res.setHeader(
-    'Access-Control-Allow-Methods',
-    'GET, POST, PATCH, DELETE, OPTIONS'
+    "Access-Control-Allow-Methods",
+    "GET, POST, PATCH, DELETE, OPTIONS"
   );
   next();
 });
 
-//Método responsável pelo post dos posts
-app.post('/api/posts', (req, res, next) => {
+app.post("/api/posts", (req, res, next) => {
   const post = new Post({
     title: req.body.title,
     content: req.body.content
   });
-  //save() é um método do mongoose que quando declarado irá criar a query adequada para se conectar com o banco por de baixo dos panos
-  post.save();
+  console.log(post);
   res.status(201).json({
-    message: 'Post added successfuly!'
+    message: 'Post added successfully'
   });
 });
 
-//Método responsável por listar os posts
-app.get('/api/posts', (req, res, next) => {
-
-  //Conteúdo temporáriamente mocado por não ter um banco de dados
+app.get("/api/posts", (req, res, next) => {
   const posts = [
     {
-      id: '1',
-      title: 'title 1',
-      content: 'content 1 from server'
+      id: "fadf12421l",
+      title: "First server-side post",
+      content: "This is coming from the server"
     },
     {
-      id: '2',
-      title: 'title 2',
-      content: 'content 2 from server'
-    },
-    {
-      id: '3',
-      title: 'title 3',
-      content: 'content 3 from server'
+      id: "ksajflaj132",
+      title: "Second server-side post",
+      content: "This is coming from the server!"
     }
   ];
   res.status(200).json({
-    message: 'Posts fetched succesfully!',
+    message: "Posts fetched successfully!",
     posts: posts
   });
 });
