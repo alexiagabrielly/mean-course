@@ -41,4 +41,14 @@ export class PostsService {
         this.postsUpdated.next([...this.posts]);
       });
   }
+
+  deletePost(postId: string) {
+    this.http.delete("http://localhost:3000/api/posts/" + postId)
+      .subscribe(() => {
+        //O método filter() permite que seja retornado apenas um subconjunto do array. Ao passar uma função como paramentro, ela será executada para cada posição do array, se retornar true, o elemento será capturado, se não ele não será parte desse novo conjunto
+        const updatedPosts = this.posts.filter(post => post.id != postId);
+        this.posts = updatedPosts;
+        this.postsUpdated.next([...this.posts]);
+      })
+  }
 }
