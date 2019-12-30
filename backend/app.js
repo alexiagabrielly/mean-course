@@ -8,12 +8,12 @@ const app = express();
 
 mongoose
   .connect(
-    "mongodb+srv://alexiagabrielly:A5933b6e@cluster0-e2nmh.mongodb.net/test?retryWrites=true&w=majority", {
+    "mongodb+srv://alexiagabrielly:A5933b6e@cluster0-e2nmh.mongodb.net/node-angular?retryWrites=true&w=majority", {
       useUnifiedTopology: true,
       useNewUrlParser: true,
     })
   .then(() => {
-    console.log("Connected to database!");
+    console.log("Deu certo!");
   })
   .catch(() => {
     console.log("deu ruim");
@@ -40,29 +40,20 @@ app.post("/api/posts", (req, res, next) => {
     title: req.body.title,
     content: req.body.content
   });
-  console.log(post);
+  post.save();
   res.status(201).json({
     message: 'Post added successfully'
   });
 });
 
 app.get("/api/posts", (req, res, next) => {
-  const posts = [
-    {
-      id: "fadf12421l",
-      title: "First server-side post",
-      content: "This is coming from the server"
-    },
-    {
-      id: "ksajflaj132",
-      title: "Second server-side post",
-      content: "This is coming from the server!"
-    }
-  ];
-  res.status(200).json({
-    message: "Posts fetched successfully!",
-    posts: posts
-  });
+  Post.find()
+    .then(documents => {
+      res.status(200).json({
+        message: "Posts fetched successfully!",
+        posts: documents
+      });
+    });
 });
 
 module.exports = app;
