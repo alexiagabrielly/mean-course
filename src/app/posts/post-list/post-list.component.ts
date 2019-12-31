@@ -13,13 +13,16 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   // @Input responsável por fazer o angular entender que essa váriavel esta aguardando dados que virão de outro componente.
   posts: Post[] = [];
+  isLoading = false;
   private postsSub: Subscription;
 
   constructor(public postsService: PostsService) { }
 
   ngOnInit() {
     this.postsService.getPosts();
+    this.isLoading = true;
     this.postsSub = this.postsService.getPostUpdateListener().subscribe((posts: Post[]) => {
+      this.isLoading = false;
       this.posts = posts;
     });
   }

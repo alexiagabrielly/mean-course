@@ -1,6 +1,7 @@
 <mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
   <!-- Ao criar um form o angular vai entender que isso é um formulário e vai criar um objeto por baixo dos panos, definir um id que recebe ngForm nos permite acessar os dados desse objeto -->
-  <form (submit)="onSavePost(postForm)" #postForm="ngForm">
+  <form (submit)="onSavePost(postForm)" #postForm="ngForm" *ngIf="!isLoading">
     <mat-form-field>
       <input
         placeholder="Post Title"
