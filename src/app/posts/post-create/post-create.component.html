@@ -1,13 +1,13 @@
 <mat-card>
   <!-- Ao criar um form o angular vai entender que isso é um formulário e vai criar um objeto por baixo dos panos, definir um id que recebe ngForm nos permite acessar os dados desse objeto -->
-  <form (submit)="onAddPost(postForm)" #postForm="ngForm">
+  <form (submit)="onSavePost(postForm)" #postForm="ngForm">
     <mat-form-field>
       <input
         placeholder="Post Title"
         matInput
         type="text"
         name="title"
-        ngModel
+        [ngModel]="post?.title"
         #title="ngModel"
         required>
 
@@ -19,7 +19,7 @@
         matInput
         rows="10"
         name="content"
-        ngModel
+        [ngModel]="post?.content"
         #content="ngModel"
         #postInput
         required></textarea>
