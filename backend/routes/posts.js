@@ -79,13 +79,27 @@ router.get("/:id", (req, res, next) => {
 });
 
 router.get("", (req, res, next) => {
-    Post.find()
-        .then(documents => {
+    //O sinal + converte o resultado para numero
+    const pageSize = +req.query.pageSize;
+    const currentPage = +req.query.page;
+    const postQuery = Post.find();
+    let fechedPosts;
+    if (pageSize && currentPage) {
+        postQuery
+            .skip(pageSize * (currentPage - 1))
+            .limit(pageSize);
+    }
+    postQuery.then(documents => {
+        fechedPosts = documents;
+        return Post.countDocuments();
+    })
+    .then(count => {
         res.status(200).json({
-            message: "Posts fetched successfully!",
-            posts: documents
+            message: "Posts feched successfully!",
+            posts: fechedPosts,
+            maxPosts: count
         });
-        });
+    });
 });
 
 router.delete("/:id", (req, res, next) => {
