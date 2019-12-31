@@ -26,7 +26,7 @@ export class PostCreateComponent implements OnInit {
   ) {}
 
   onSavePost() {
-    // if (this.form.invalid) return;
+    if (this.form.invalid) return;
     this.isLoading = true;
     if (this.mode === "create") {
       this.postsService.addPost(
@@ -78,7 +78,8 @@ export class PostCreateComponent implements OnInit {
           this.post = {
             id: postData._id,
             title: postData.title,
-            content: postData.content
+            content: postData.content,
+            imagePath: null
           };
           this.form.setValue({
             title: this.post.title,
