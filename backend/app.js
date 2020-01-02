@@ -17,8 +17,8 @@ mongoose
   .then(() => {
     console.log("Deu certo!");
   })
-  .catch(() => {
-    console.log("deu ruim");
+  .catch((err) => {
+    console.log(err, "deu ruim");
   });
 
 app.use(bodyParser.json());
