@@ -48,6 +48,12 @@ export class AuthService {
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
         }
-    });
+      });
+    }
+
+    logout() {
+      this.token = null;
+      this.isAuthenticated = false;
+      this.authStatusListener.next(false);
     }
 }
